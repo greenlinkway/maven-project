@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+  
+    environment {
+        FUCK = '888'
+    }
+  
+    stages {
+        stage('stage1') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('stage2') {
+            steps {
+               echo "Hello $FUCK"
+            }
+        }
+        stage('stage3') {
+            steps {
+                echo 'Hello World2'
+            }
+        }        
+    }
+}
