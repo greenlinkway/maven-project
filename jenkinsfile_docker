@@ -6,6 +6,7 @@ pipeline {
     agent { 
         label 'master'
         }
+// делать опрос гит каждую минуту
     triggers { pollSCM('* * * * *') }
     options {
 // Хранить не юолее 10 сборок и ставить метки времени       
