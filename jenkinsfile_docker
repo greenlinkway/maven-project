@@ -1,6 +1,6 @@
 #!groovy
-// Run docker build
-properties([disableConcurrentBuilds()])
+// Run docker build отключение параллельных сборок
+properties([disableConcurrentBuilds()]) 
 
 pipeline {
     agent { 
@@ -8,6 +8,7 @@ pipeline {
         }
     triggers { pollSCM('* * * * *') }
     options {
+// Хранить не юолее 10 сборок и ставить метки времени       
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
