@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    triggers {
+    pollSCM('*/5 * * * *')
+    }    
+    stages{
+        stage('Build'){
+            steps {
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    echo 'Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+                }
+            }
+        }
+        // vyzyvaem druguyu job
+        stage ('Deployments'){
+           parallel{
+             stage ('deploy_maven_to_staging')
+               steps {
+                 sh 'cp **/target/*.war /home/edu/tomcat_staging/webapps'
+               }
+             }
+              stage ('Deploy to Production'){
+                steps {
+            // ogidaet_podtvrgdeniya vypolneniya job esli ne nagat to cherez 5 dnei ispolnitsya
+                   timeout(time:5, unit:'DAYS'){
+                      input message:'Approve PRODUCTION Deployment?'
+                  }           
+                 sh 'cp **/target/*.war /home/edu/tomcat_prodaction/webapps'
+              }
+            }
+        }            
+    }    
+}
