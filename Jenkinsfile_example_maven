@@ -20,7 +20,6 @@ pipeline {
         }
         stage ('Deploy to Production'){
            steps {
-            
                build job: 'deploy_maven_to_prod
            }
         }            
