@@ -1,27 +1,14 @@
-
 pipeline {
-	agent any
-	stages{
-		   stage ('Build'){
-				steps {
-					sh 'mvn claen package'
-				}
-         post {
-           success {
-				    	echo "Arhivating..."
-              archiveArtifacts artifacts: '**/target/*.war'   
-          }
-         }
-        } 
-		   stage ('init') {
-				steps {
-					echo "Arhivating..."
-				}
-		   }
-		   stage ('Deploy') {
-				steps {
-					echo "Deploy step..."
-				}
-		   }
-	}
-} 
+    agent any
+    stages{
+         stage ('Build'){
+	     steps {
+                 sh 'mvn claen package'
+	     }
+             post {
+                 success {
+		     echo "Arhivating..."
+                     archiveArtifacts artifacts: '**/target/*.war'   
+                 }
+              }
+           } 
