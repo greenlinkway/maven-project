@@ -12,5 +12,12 @@ pipeline {
                 }
             }
         }
+        // vyzyvaem druguyu job
+        stage ('Deploy to Staging'){
+           steps {
+               build job: 'deploy_maven_to_staging'
+           }
+        }
+
     }    
 }
