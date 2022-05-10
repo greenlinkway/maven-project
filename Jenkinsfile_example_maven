@@ -18,13 +18,5 @@ pipeline {
                build job: 'deploy_maven_to_staging'
            }
         }
-        stage ('Deploy to Production'){
-            steps {
-            // ogidaet_podtvrgdeniya vypolneniya job esli ne nagat to cherez 5 dnei ispolnitsya
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
-             }
-             build job: 'deploy_maven_to_prod
-        }
     }    
 }
