@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    triggers {
-    pollSCM('*/5 * * * *')
-    }    
     stages{
         stage('Build'){
             steps {
@@ -16,22 +13,19 @@ pipeline {
             }
         }
         // vyzyvaem druguyu job
-        stage ('Deployments'){
-           parallel{
-             stage ('deploy_maven_to_staging')
-               steps {
-                 sh 'cp **/target/*.war /home/edu/tomcat_staging/webapps'
-               }
-             }
-              stage ('Deploy to Production'){
-                steps {
+        stage ('Deploy to Staging'){
+           steps {
+               build job: 'deploy_maven_to_staging'
+           }
+        }
+        stage ('Deploy to Production'){
+           steps {
             // ogidaet_podtvrgdeniya vypolneniya job esli ne nagat to cherez 5 dnei ispolnitsya
-                   timeout(time:5, unit:'DAYS'){
-                      input message:'Approve PRODUCTION Deployment?'
-                  }           
-                 sh 'cp **/target/*.war /home/edu/tomcat_prodaction/webapps'
-              }
-            }
+                timeout(time:5, unit:'DAYS'){
+                    input message:'Approve PRODUCTION Deployment?'
+             }           
+               build job: 'deploy_maven_to_prod'
+           }
         }            
     }    
 }
