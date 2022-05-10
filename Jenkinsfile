@@ -24,7 +24,7 @@ pipeline {
            }
            stage ('Deploy to prod') {
              steps {
-               sh "cp **/target/*.war /home/edu/tomcat_prodaction/webapps"
+               sh "scp **/target/*.war root@10.137.0.32:/home/edu/tomcat_prodaction/webapps"
              }     
            }
          }
