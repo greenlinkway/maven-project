@@ -25,6 +25,6 @@ pipeline {
                     input message:'Approve PRODUCTION Deployment?'
                 }
                 build job: 'deploy_maven_to_prod
-            }
+        }
     }    
 }
